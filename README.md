@@ -1,6 +1,6 @@
 # rock_paper_scissors
 
-> Classic game ROCK, PAPER, SCISSORS.
+Classic game ROCK, PAPER, SCISSORS.
 
 ## Built With
 
@@ -19,7 +19,7 @@
 
 ## Prerequisites
 
-- A modern browser, up to date.  :muscle:
+- A modern browser, up to date.
 
 ## Future features
 
