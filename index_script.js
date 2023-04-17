@@ -5,14 +5,18 @@ const resultContainer = document.querySelector('#resultContainer');
 
 const scoreMeter = document.createElement('div');
 scoreMeter.className = 'scoreMeter';
+scoreMeter.textContent = `PScore: ${pScore} |
+                            CScore: ${cScore}`;
 resultContainer.appendChild(scoreMeter);
 
 const roundResult = document.createElement('div');
 roundResult.className = 'roundResult';
+roundResult.textContent = '-';
 resultContainer.appendChild(roundResult);
 
 const finalResult = document.createElement('div');
 finalResult.className = 'finalResult';
+finalResult.textContent = '-';
 resultContainer.appendChild(finalResult);
 
 function getComputerChoice() {
@@ -23,14 +27,31 @@ function getComputerChoice() {
     return cases[x];
 }
 
-function overCondition(playerWon) {
-    if (playerWon)
-        pScore++;
-    else
-        cScore++;
+function overCondition(playerWon, ComputerWon, pChoice, cChoice) {
+    var res = "You ";
 
-    scoreMeter.textContent = `Player Score: ${pScore}
-                                Computer Score: ${cScore}`;
+    if(pScore >= 5 || cScore >= 5) {
+        pScore = 0;
+        cScore = 0;
+        finalResult.textContent = '-';
+        roundResult.textContent = '-';
+    }
+
+    if (playerWon) {
+        pScore++;
+        res = res + `Win, ${pChoice} beats ${cChoice}`;
+    }
+    else if(ComputerWon) {
+        cScore++;
+        res = res + `Lose, ${cChoice} beats ${pChoice}`;
+    }
+    else {
+        res = res + "Tied";
+    }
+
+    roundResult.textContent = res;
+    scoreMeter.textContent = `PScore: ${pScore} |
+                                CScore: ${cScore}`;
 
     console.log('pScore: ' + pScore);
     console.log('cScore: ' + cScore);
@@ -43,9 +64,6 @@ function overCondition(playerWon) {
     }
     else
         return;
-    
-    pScore = 0;
-    cScore = 0;
 }
 
 function playRound(event) {
@@ -55,50 +73,28 @@ function playRound(event) {
     console.log("pSelect: " + pSelect);
     console.log("cSelect: " + cSelect);
 
-    var res = "You ";
+    if ((pSelect === 'ROCK' && cSelect === 'SCISSORS') ||
+        (pSelect === 'PAPER' && cSelect === 'ROCK') ||
+        (pSelect === 'SCISSORS' && cSelect === 'PAPER')) {
 
-    if (cSelect === 'ROCK') {
-        if (pSelect === 'ROCK')
-            res = res + "Tied";
-        else if (pSelect === 'PAPER') {
-            res = res + "Win, Paper beats Rock";
-            overCondition(true);
-        }
-        else if (pSelect === 'SCISSORS') {
-            res = res + "Lose, Rock beats Scissors";
-            overCondition(false);
-        }
+        overCondition(true, false, pSelect, cSelect);
     }
-    else if (cSelect === 'PAPER') {
-        if (pSelect === 'ROCK') {
-            res = res + "Lose, Paper beats Rock";
-            overCondition(false);
-        }
-        else if (pSelect === 'PAPER')
-            res = res + "Tied";
-        else if (pSelect === 'SCISSORS') {
-            res = res + "Win, Scissors beats Paper";
-            overCondition(true);
-        }
-    }
-    else if (cSelect === 'SCISSORS') {
-        if (pSelect === 'ROCK') {
-            res = res + "Win, Rock beats Scissors";
-            overCondition(true);
-        }
-        else if (pSelect === 'PAPER') {
-            res = res + "Lose, Scissors beats Paper";
-            overCondition(false);
-        }
-        else if (pSelect === 'SCISSORS')
-            res = res + "Tied";
-    }
+    else if ((pSelect === 'ROCK' && cSelect === 'PAPER') ||
+        (pSelect === 'PAPER' && cSelect === 'SCISSORS') ||
+        (pSelect === 'SCISSORS' && cSelect === 'ROCK')) {
 
-    roundResult.textContent = res;
+        overCondition(false, true, pSelect, cSelect);
+    }
+    else {
+        overCondition(false, false);
+    }
 }
 
-const buttons = document.querySelectorAll('button');
+const rock = document.querySelector('.pContainer .rock');
+rock.addEventListener('click', playRound);
 
-buttons.forEach((btn) => {
-    btn.addEventListener('click', playRound);
-});
+const paper = document.querySelector('.pContainer .paper');
+paper.addEventListener('click', playRound);
+
+const scissors = document.querySelector('.pContainer .scissors');
+scissors.addEventListener('click', playRound);

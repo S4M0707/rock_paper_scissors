@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="style.css">
     <script src="index_script.js" defer></script>
 </head>
-<body>
-    <button class="rock">ROCK</button>
-    <button class="paper">PAPER</button>
-    <button class="scissors">SCISSORS</button>
 
-    <div id="resultContainer"></div>
+<body>
+    <div class="container">
+        <div class='heading'>
+            <h1>Rock Paper Scissors</h1>
+            <h2>INSTRUCTIONS</h2>
+            <p>Select from the 3 options of 'ROCK', 'PAPER' or 'SCISSORS'.</p>
+            <p>First to win 5 rounds wins the game.</p>
+        </div>
+        <div class='pContainer'>
+            <div class="rock">
+                ROCK
+                <img src='images/Rock.svg'>
+            </div>
+            <div class="paper">
+                PAPER
+                <img src='images/Paper.svg'>
+            </div>
+            <div class="scissors">
+                SCISSORS
+                <img src='images/Scissors.svg'>
+            </div>
+        </div>
+
+        <div id="resultContainer"></div>
+    </div>
 </body>
+
 </html>
